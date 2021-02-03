@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Simulation {
 
     private int[][] grid;
@@ -6,21 +8,36 @@ public class Simulation {
         this.grid = grid;
     }
 
-    public  void printOutGrid(int[][] grid) {
-        System.out.println("Grid:");
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[i].length; j++) {
-                System.out.print(grid[i][j] + "  ");
+    public void gameOfLife() {
+        while(true){
+            Scanner sc = new Scanner(System.in);
+            System.out.println("1.Play the simulation            2.Exit");
+            int number = sc.nextInt();
+            if(number == 1){
+                //Eredeti rács kiíratása
+                printOutGrid(grid);
+
+                // Ebben mentem a változtatásokat,így az eredeti felálláson nem változtatok és így nem befolyásolja be a születéseket és halálozásokat
+                int[][] newGrid = new int[this.grid.length][this.grid.length];
+
+                //Lejátsza a szimuláció
+                playTheSimulation(newGrid);
+
+                //Átadjuk az eredeti rácsnak az új rács felállását a kör után
+                grid = newGrid;
+
+                //Eredmény kiíratása
+                this.printOutGrid(newGrid);
+            }else if(number == 2){
+                sc.close();
+                break;
+            }else{
+                System.out.println("\r\n"+"Wrong input! Available numbers are 1 and two.");
             }
-            System.out.println(" ");
         }
-        System.out.println("\r\n");
     }
 
-    public void gameOfLife() {
-        // ebben mentem a változtatásokat,így az eredeti felálláson nem változtatok és így nem befolyásolja be a születéseket és halálozásokat
-        int[][] newGrid = new int[this.grid.length][this.grid.length];
-
+    private void playTheSimulation(int[][] newGrid) {
         for (int i = 0; i < this.grid.length; i++) {
             for (int j = 0; j < this.grid[i].length; j++) {
                 //jelenlegi cella kiszervezése
@@ -46,8 +63,6 @@ public class Simulation {
                 }
             }
         }
-        //Eredmény kiíratása
-        this.printOutGrid(newGrid);
     }
 
     private int numberOfAliveNeighbours(int i, int j,int limit) {
@@ -108,5 +123,16 @@ public class Simulation {
         }
 
         return numberOfAliveNeighbours;
+    }
+
+    private  void printOutGrid(int[][] grid) {
+        System.out.println("Grid:");
+        for (int[] ints : grid) {
+            for (int anInt : ints) {
+                System.out.print(anInt + "  ");
+            }
+            System.out.println(" ");
+        }
+        System.out.println("\r\n");
     }
 }

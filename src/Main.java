@@ -11,7 +11,6 @@ public class Main {
         };
 
         Simulation sm = new Simulation(grid);
-        sm.printOutGrid(grid);
         sm.gameOfLife();
     }
 }
